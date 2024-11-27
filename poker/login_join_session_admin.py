@@ -27,7 +27,7 @@ def login_join_admin():
                 session_data = get_session(session_id)
                 st.success(f"Session '{session_data['name']}' joined successfully!")
                 display_session_data(session_id)
-                st.query_params["sessionid"] = session_id
-                st.query_params["type"] = "Admin"
-                st.query_params["user"] = user_name
-                st.rerun()
+               #  st.query_params["sessionid"] = session_id
+               # st.query_params["type"] = "Admin"
+               # st.query_params["user"] = user_name
+               # st.rerun()

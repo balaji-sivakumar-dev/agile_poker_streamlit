@@ -20,10 +20,10 @@ def login_create_session():
         else:
             session_id = create_session_data(user_name)
            #  display_session_data(session_id)
-            st.query_params["sessionid"] = session_id
-            st.query_params["type"] = "Admin"
-            st.query_params["user"] = user_name
-            st.rerun()
+            # st.query_params["sessionid"] = session_id
+            # st.query_params["type"] = "Admin"
+            # st.query_params["user"] = user_name
+            # st.rerun()
             
            
 

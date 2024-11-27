@@ -88,7 +88,7 @@ def display_all_session_data():
     st.write("All Sessions:")
     st.table(df)
     
-def join_session(session_id, user_name, user_type):
+def join_session(session_id, user_name, user_type, selected_point=None):
     session_data = get_session(session_id)
     if not session_data:
         st.error("Invalid Session ID.")
@@ -102,7 +102,7 @@ def join_session(session_id, user_name, user_type):
             admins.append(user_name)
     elif user_type == "User":
         if user_name not in participants:
-            participants[user_name] = None
+            participants[user_name] = selected_point
 
     update_session(session_id, admins, participants)
 
