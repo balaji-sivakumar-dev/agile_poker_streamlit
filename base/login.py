@@ -91,11 +91,11 @@ def pointing_poker(session_id, user_name):
 def login_screen():
     st.title("Login")
 
-    user_type = st.radio("Select your role:", ["Create a Session", "Join as Participant", "Join as Admin"], key="user_type_radio_login")
+    user_type = st.radio("Select your role:", ["Create a Session", "Join as Participant", "Join as Admin"],  key=f"user_type_radio_{time.time()}")
     user_name = st.text_input("Enter your name:", key="user_name_input")
 
     if user_type == "Create a Session":
-        if st.button("Start New Session", key="start_new_session"):
+        if st.button("Start New Session", key=f"start_new_session_{time.time()}"):
             session_id_int = int(time.time())
             add_admin(session_id_int, user_name)
             set_session_state(session_id_int, "Admin", user_name)
