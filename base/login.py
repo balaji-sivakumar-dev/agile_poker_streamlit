@@ -77,11 +77,10 @@ def pointing_poker(session_id, user_name):
     st.title("Pointing Poker")
     print('pointing_poker session_id ', session_id, ' user_name ', user_name)
     values = ["NA", 0.25, 0.5, 1, 2, 3, 5, 8 ]
-    key=f"pointing_poker_{session_id}_{user_name}"
-    selected_point = st.radio("Select a point value:", values, key=key)
+    selected_point = st.radio("Select a point value:", values, key=f"pointing_poker_{session_id}_{user_name}")
     print('selected_point ', selected_point)
 
-    if st.button("Submit Points"):
+    if st.button("Submit Points", key=f"submit_points_{session_id}_{user_name}"):
         session_data = global_state["sessions"].get(session_id)
         if session_data and user_name in session_data["participants"]:
             session_data["participants"][user_name] = selected_point
@@ -92,31 +91,31 @@ def pointing_poker(session_id, user_name):
 def login_screen():
     st.title("Login")
 
-    user_type = st.radio("Select your role:", ["Create a Session", "Join as Participant", "Join as Admin"], key="user_type")
-    user_name = st.text_input("Enter your name:")
+    user_type = st.radio("Select your role:", ["Create a Session", "Join as Participant", "Join as Admin"], key="user_type_radio_login")
+    user_name = st.text_input("Enter your name:", key="user_name_input")
 
     if user_type == "Create a Session":
-        if st.button("Start New Session"):
+        if st.button("Start New Session", key="start_new_session"):
             session_id_int = int(time.time())
             add_admin(session_id_int, user_name)
             set_session_state(session_id_int, "Admin", user_name)
             st.session_state["current_session_id"] = session_id_int
             print_session_data(session_id_int)
-        if st.button("Refresh"):
+        if st.button("Refresh", key="refresh_create_session"):
             refresh(st.session_state.get("current_session_id", 0))
     elif user_type == "Join as Admin":
-        session_id = st.text_input("Enter Session ID to join:")
-        if st.button("Join Session"):
+        session_id = st.text_input("Enter Session ID to join:", key="session_id_input_admin")
+        if st.button("Join Session", key="join_session_admin"):
             session_id_int = int(session_id)
             add_admin(session_id_int, user_name)
             set_session_state(session_id_int, "Admin", user_name)
             st.session_state["current_session_id"] = session_id_int
             print_session_data(session_id_int)
-        if st.button("Refresh"):
+        if st.button("Refresh", key="refresh_join_admin"):
             refresh(st.session_state.get("current_session_id", 0))
     elif user_type == "Join as Participant":
-        session_id = st.text_input("Enter Session ID to join:")
-        if st.button("Join Session"):
+        session_id = st.text_input("Enter Session ID to join:", key="session_id_input_participant")
+        if st.button("Join Session", key="join_session_participant"):
             session_id_int = int(session_id)
             add_participant(session_id_int, user_name)
             set_session_state(session_id_int, "Participant", user_name)
