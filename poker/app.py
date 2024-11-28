@@ -12,12 +12,6 @@ from all_active_sessions import all_active_sessions
 def main():
     init_db()
     
-    # Get query parameters from the URL
-    query_params = st.query_params
-    
-    # session_id = query_params.get("sessionid", [None])[0]
-    # user_type = query_params.get("type", [None])[0]
-    # user_name = query_params.get("user", [None])[0]
     
     page = st.sidebar.selectbox("Select Page", ["Create Session", "Join as User", "View Selected Points" , "Join as Admin",  "Active Sessions"])
     if page == "Login":

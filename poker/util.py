@@ -6,6 +6,7 @@ import pandas as pd
 
 DB_FILE = "sessions.db"
 
+# ### Database Functions ###
 
 # Initialize the SQLite database
 def init_db():
@@ -56,6 +57,29 @@ def get_session(session_id):
         return {"admins": json.loads(row[0]), "participants": json.loads(row[1])}
     return None
 
+def display_all_session_data():
+    conn = sqlite3.connect(DB_FILE)
+    df = pd.read_sql_query("SELECT * FROM sessions", conn)
+    conn.close()
+    st.write("All Sessions:")
+    st.table(df)
+
+def delete_all_sessions():
+    conn = sqlite3.connect(DB_FILE)
+    cursor = conn.cursor()
+    cursor.execute("DELETE FROM sessions")
+    conn.commit()
+    conn.close()
+    
+def delete_session(session_id):
+    conn = sqlite3.connect(DB_FILE)
+    cursor = conn.cursor()
+    cursor.execute("DELETE FROM sessions WHERE id = ?", (session_id,))
+    conn.commit()
+    conn.close()
+
+# ## Managing Session Data ##
+
 # Core application logic
 def create_session_data(user_name):
     session_id = int(time.time())
@@ -81,12 +105,6 @@ def display_session_data(session_id):
     else:
         st.write("No participants yet.")
         
-def display_all_session_data():
-    conn = sqlite3.connect(DB_FILE)
-    df = pd.read_sql_query("SELECT * FROM sessions", conn)
-    conn.close()
-    st.write("All Sessions:")
-    st.table(df)
     
 def join_session(session_id, user_name, user_type, selected_point=None):
     session_data = get_session(session_id)
@@ -110,6 +128,6 @@ def join_session(session_id, user_name, user_type, selected_point=None):
     st.session_state["user_name"] = user_name
     st.session_state["user_type"] = user_type
 
-    st.success(f"Joined session `{session_id}` as {user_type}.")
+    # st.success(f"Joined session `{session_id}` as {user_type}.")
     return True
 

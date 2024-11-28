@@ -12,8 +12,15 @@ def login_join_admin():
     # reset st.query_params
     st.query_params = {}
     st.title("Login as Admin")
+      # Initialize session state if it doesn't exist
+    if 'session_id' not in st.session_state:
+        st.session_state.session_id = ""
+   
     user_name = st.text_input("Enter your name:")
-    session_id = st.text_input("Enter Session ID:")
+    session_id = st.text_input("Enter Session ID:", value=str(st.session_state.session_id) if str(st.session_state.session_id) else "")
+    
+    # if current_session_id has a value pre populate in text box 
+    
 
     if st.button("Join Session"):
         if not user_name.strip():

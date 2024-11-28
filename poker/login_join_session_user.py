@@ -6,48 +6,20 @@ import pandas as pd
 
 from util import add_session, update_session, get_session, init_db, display_session_data, join_session, create_session_data
 
-def pointing_poker(session_id, user_name):
-    st.title("Pointing Poker")
-    session_data = get_session(session_id)
-
-    if not session_data:
-        st.error("Session not found.")
-        return
-
-    participants = session_data["participants"]
-
-    # Initialize session state if it doesn't exist
-    if 'selected_point' not in st.session_state:
-        st.session_state.selected_point = None
-    
-    # Retrieve the current user's selected point
-    selected_point = participants.get(user_name, "NA")
-
-    # Radio button to select a point value
-    selected_point = st.radio(
-        "Select a point value:",
-        options=[1, 2, 3, 4, 5],
-        index=st.session_state.selected_point if st.session_state.selected_point is not None else 0
-    )
-    
-    # Update session state
-    st.session_state.selected_point = selected_point
-    st.write(f"Selected point value: {selected_point}")
-
-    # Submit button to save the selected point
-    if st.button("Submit Points", key=f"submit_{session_id}_{user_name}"):
-        participants[user_name] = selected_point
-        update_session(session_id, session_data["admins"], participants)
-        st.success(f"Point '{selected_point}' submitted!")
-
-
 # Login screen
 def login_join_user():
+    # Initialize session state if it doesn't exist
+    if 'session_id' not in st.session_state:
+        st.session_state.session_id = ""
+    
     # reset st.query_params
     st.query_params = {}
     st.title("Login as User")
-    user_name = st.text_input("Enter your name:")
-    session_id = st.text_input("Enter Session ID:")
+    user_name = st.text_input("Enter your name:", value=str(st.session_state.user_name) if str(st.session_state.user_name) else "")
+    session_id = st.text_input(
+        "Enter Session ID:",
+        value=str(st.session_state.session_id) if str(st.session_state.session_id) else ""
+    )
     
     selected_point = st.radio(
         "Select a point value:",

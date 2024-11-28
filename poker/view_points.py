@@ -4,11 +4,15 @@ import sqlite3
 import streamlit as st
 import pandas as pd
 
-from util import display_session_data
+from util import delete_session, display_session_data
 
 def view_points():
     st.title("View Selected Points")
-    session_id = st.text_input("Enter Session ID:")
+    # Initialize session state if it doesn't exist
+    if 'session_id' not in st.session_state:
+        st.session_state.session_id = ""
+        
+    session_id = st.text_input("Enter Session ID:" , value=str(st.session_state.session_id) if str(st.session_state.session_id) else "")
     
     if not session_id:
         st.error("Session ID cannot be empty.")
@@ -16,4 +20,9 @@ def view_points():
         session_id_int = int(session_id)
         display_session_data(session_id_int)
 
+    # Delete Current Session Data 
+    if st.button("Delete Current Session Data"):
+        delete_session(session_id_int)
+        st.success("Session data deleted successfully!")
+        st.rerun()
 # active_sessions()
