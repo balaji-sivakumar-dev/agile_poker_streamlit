@@ -60,9 +60,15 @@ def get_session(session_id):
 def display_all_session_data():
     conn = sqlite3.connect(DB_FILE)
     df = pd.read_sql_query("SELECT * FROM sessions", conn)
+    # Remove the index column
+    df = df.reset_index(drop=True)
     conn.close()
     st.write("All Sessions:")
-    st.table(df)
+    # Convert DataFrame to a dictionary without the index column
+    df_dict = df.to_dict('records')
+
+    # Display the DataFrame without the index column
+    st.table(df_dict)
 
 def delete_all_sessions():
     conn = sqlite3.connect(DB_FILE)
@@ -100,8 +106,16 @@ def display_session_data(session_id):
     if participants:
         table_data = [{"User": user, "Points": points} for user, points in participants.items()]
         df = pd.DataFrame(table_data)
+        # Remove the index column
+        df = df.reset_index(drop=True)
+
         st.write("Participants and Points:")
-        st.table(df)
+        
+        # Convert DataFrame to a dictionary without the index column
+        df_dict = df.to_dict('records')
+
+        # Display the DataFrame without the index column
+        st.table(df_dict)
     else:
         st.write("No participants yet.")
         
