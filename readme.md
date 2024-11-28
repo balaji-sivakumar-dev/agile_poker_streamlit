@@ -17,4 +17,4 @@ streamlit run poker/app.py
 ```
 
 
-This application is deployed on Streamlit Community. You can access it at [agilepokerapp-test](https://agilepokerapp-test.streamlit.app/)
+This application is deployed on Streamlit Community. You can access it at [agilepokerapp](https://agilepokerapp.streamlit.app/)
