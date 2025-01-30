@@ -148,6 +148,7 @@ def get_base_url():
         protocol = 'https' if st.get_option('server.sslCert') else 'http'
         base_url =  f"{protocol}://{host}:{port}"
         print ("base_url " , base_url)
+        
         return base_url
     except:
         # Fallback to default
@@ -160,4 +161,6 @@ def generate_session_url(session_id, base_url=None):
     if not base_url:
         # Fallback to a default local URL if base_url is not available
         base_url = "http://localhost:8501"
+
+    
     return f"{base_url}?page=Join+as+User&session_id={session_id}"

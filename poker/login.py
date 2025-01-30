@@ -22,7 +22,10 @@ def login_create_session():
             # Generate and display the session URL
             session_url = generate_session_url(session_id)
             st.info("Share this URL with participants:")
-            st.code(session_url, language="text")
+            
+            
+            st.markdown(f"[copy & share this link](/?page=Join+as+User&session_id={session_id})")
+            #st.code(session_url, language="text")
             
             # Display session data
             display_session_data(session_id)
