@@ -60,15 +60,14 @@ def get_session(session_id):
 def display_all_session_data():
     conn = sqlite3.connect(DB_FILE)
     df = pd.read_sql_query("SELECT * FROM sessions", conn)
-    # Remove the index column
-    df = df.reset_index(drop=True)
     conn.close()
+    
     st.write("All Sessions:")
-    # Convert DataFrame to a dictionary without the index column
-    df_dict = df.to_dict('records')
+    # Format the id column as plain string to avoid any automatic formatting
+    df['id'] = df['id'].astype(str)
+    # Option 1: Hide index
+    st.dataframe(df, hide_index=True)
 
-    # Display the DataFrame without the index column
-    st.table(df_dict)
 
 def delete_all_sessions():
     conn = sqlite3.connect(DB_FILE)

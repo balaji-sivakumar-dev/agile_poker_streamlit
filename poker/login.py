@@ -91,7 +91,7 @@ def login_join_user():
     
     selected_point = st.radio(
         "Select a point value:",
-        options=[1, 2, 3, 5, 8, "NA"]
+        options=["NA", 1, 2, 3, 5, 8]
     )
     
     if st.button("Vote"):

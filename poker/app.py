@@ -17,11 +17,28 @@ def main():
     # default_page = params.page if params.page else "Create Session"
     default_page = params["page"] if "page" in params else "Create Session"
     
-    page = st.sidebar.selectbox(
-        "Select Page",
-        ["Create Session", "Join as User", "View Selected Points", "Join as Admin", "Active Sessions"],
-        index=["Create Session", "Join as User", "View Selected Points", "Join as Admin", "Active Sessions"].index(default_page)
-    )
+    # Only show sidebar for admin-related pages
+    if default_page == "Join as User":
+        page = "Join as User"
+    else:
+        page = st.sidebar.selectbox(
+            "Select Page",
+            ["Create Session", "Join as User", "View Selected Points", "Join as Admin", "Active Sessions"],
+            index=["Create Session", "Join as User", "View Selected Points", "Join as Admin", "Active Sessions"].index(default_page)
+        )
+    
+    # Hide the hamburger menu and footer in Streamlit
+    hide_streamlit_style = """
+        <style>
+            #MainMenu {visibility: hidden;}
+            footer {visibility: hidden;}
+            [data-testid="stSidebar"][aria-expanded="true"]{display: none;}
+            [data-testid="stSidebar"][aria-expanded="false"]{display: none;}
+        </style>
+    """
+
+    if page == "Join as User":
+        st.markdown(hide_streamlit_style, unsafe_allow_html=True)
     
     if page == "Create Session":
         login_create_session()
