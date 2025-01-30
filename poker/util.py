@@ -105,17 +105,10 @@ def display_session_data(session_id):
     participants = session_data["participants"]
     if participants:
         table_data = [{"User": user, "Points": points} for user, points in participants.items()]
+        # Option 1: Hide index completely
         df = pd.DataFrame(table_data)
-        # Remove the index column
-        df = df.reset_index(drop=True)
-
         st.write("Participants and Points:")
-        
-        # Convert DataFrame to a dictionary without the index column
-        df_dict = df.to_dict('records')
-
-        # Display the DataFrame without the index column
-        st.table(df_dict)
+        st.dataframe(df, hide_index=True)  # Uses hide_index parameter
     else:
         st.write("No participants yet.")
         
@@ -145,3 +138,15 @@ def join_session(session_id, user_name, user_type, selected_point=None):
     # st.success(f"Joined session `{session_id}` as {user_type}.")
     return True
 
+
+def get_base_url():
+    #return st.experimental_get_query_params().get("base_url", [""])[0]
+    return st.query_params["base_url"] if "base_url" in st.query_params else ""
+
+def generate_session_url(session_id, base_url=None):
+    if base_url is None:
+        base_url = get_base_url()
+    if not base_url:
+        # Fallback to a default local URL if base_url is not available
+        base_url = "http://localhost:8501"
+    return f"{base_url}?page=Join+as+User&session_id={session_id}"
