@@ -140,7 +140,19 @@ def join_session(session_id, user_name, user_type, selected_point=None):
 
 def get_base_url():
     #return st.experimental_get_query_params().get("base_url", [""])[0]
-    return st.query_params["base_url"] if "base_url" in st.query_params else ""
+    #return st.query_params["base_url"] if "base_url" in st.query_params else ""
+    # Try to get the host from Streamlit's internal state
+    try:
+        host = st.get_option('server.address')
+        port = st.get_option('server.port')
+        protocol = 'https' if st.get_option('server.sslCert') else 'http'
+        base_url =  f"{protocol}://{host}:{port}"
+        print ("base_url " , base_url)
+        return base_url
+    except:
+        # Fallback to default
+        print ('Fallback to default base url')
+        return "http://localhost:8501"
 
 def generate_session_url(session_id, base_url=None):
     if base_url is None:
