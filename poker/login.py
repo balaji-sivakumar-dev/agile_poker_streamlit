@@ -17,7 +17,7 @@ def login_create_session():
             st.error("User name cannot be empty.")
         else:
             session_id = create_session_data(user_name)
-            st.success(f"Session created successfully! Your Session ID is `{session_id}`.")
+            #st.success(f"Session created successfully! Your Session ID is `{session_id}`.")
             
             # Generate and display the session URL
             session_url = generate_session_url(session_id)
