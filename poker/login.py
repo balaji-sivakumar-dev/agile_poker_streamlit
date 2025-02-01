@@ -22,9 +22,15 @@ def login_create_session():
             # Generate and display the session URL
             session_url = generate_session_url(session_id)
             st.info("Share this URL with participants:")
-            
-            
-            st.markdown(f"[copy & share this link](/?page=Join+as+User&session_id={session_id})")
+            #st.markdown(f"[copy & share this link](/?page=Join+as+User&session_id={session_id})")
+
+            with st.expander(f"Session ID => {session_id}", expanded=True):
+                col1, col2 = st.columns(2)
+                with col1:
+                    st.markdown(f"[View Points](/?page=View+Selected+Points&session_id={session_id})")
+                with col2:
+                    st.markdown(f"[Join as User](/?page=Join+as+User&session_id={session_id})")
+
             #st.code(session_url, language="text")
             
             # Display session data
