@@ -30,25 +30,30 @@ def view_points():
         session_id_int = int(session_id)
         display_session_data(session_id_int)
 
-    # Delete Current Session Data 
-    if st.button("Delete Current Session Data"):
-        delete_session(session_id_int)
-        st.success("Session data deleted successfully!")
-        st.rerun()
-    
-    if st.button("🔄 Reload"):
+    col1, col2 = st.columns(2)
+    with col1:
+        if st.button("🔄 Reload"):
             st.rerun()
+    with col2:
+            # Delete Current Session Data 
+        if st.button("Delete Current Session Data"):
+            delete_session(session_id_int)
+            st.success("Session data deleted successfully!")
+            st.rerun()  
+
 
 def all_active_sessions():
     st.title("Active Sessions")
 
     display_all_session_data()
     
-    # delete_all_sessions()
-    if st.button("Delete All Sessions"):
-        delete_all_sessions()
-        st.success("All sessions deleted successfully!")
-        st.rerun()
-    
-    if st.button("🔄 Reload"):
+    col1, col2 = st.columns(2)
+    with col1:
+        if st.button("🔄 Reload"):
             st.rerun()
+    with col2:
+        # delete_all_sessions()
+        if st.button("Delete All Sessions"):
+            delete_all_sessions()
+            st.success("All sessions deleted successfully!")
+            st.rerun() 
