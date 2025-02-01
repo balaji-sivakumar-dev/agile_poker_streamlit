@@ -57,7 +57,7 @@ def get_session(session_id):
         return {"admins": json.loads(row[0]), "participants": json.loads(row[1])}
     return None
 
-def display_all_session_data():
+def display_all_session_data_old():
     conn = sqlite3.connect(DB_FILE)
     df = pd.read_sql_query("SELECT * FROM sessions", conn)
     conn.close()
@@ -65,9 +65,30 @@ def display_all_session_data():
     st.write("All Sessions:")
     # Format the id column as plain string to avoid any automatic formatting
     df['id'] = df['id'].astype(str)
-    # Option 1: Hide index
-    st.dataframe(df, hide_index=True)
+    list_df = df[['id']].copy()
+    #st.markdown(f"[View Points & share this link](/?page=View_Selected+Points&session_id={session_id})")
+    list_df['view_points_url'] = df['id'].apply(lambda x: st.markdown(f"[View Points & share this link](/?page=View_Selected+Points&session_id={x})"))
 
+
+    st.dataframe(list_df, hide_index=True)
+
+def display_all_session_data():
+    conn = sqlite3.connect(DB_FILE)
+    df = pd.read_sql_query("SELECT * FROM sessions", conn)
+    conn.close()
+    
+    st.write("All Sessions:")
+    
+    # Format the id column as plain string
+    df['id'] = df['id'].astype(str)
+    
+    for _, row in df.iterrows():
+        with st.expander(f"Session {row['id']}", expanded=True):
+            col1, col2 = st.columns(2)
+            with col1:
+                st.markdown(f"[View Points](/?page=View+Selected+Points&session_id={row['id']})")
+            with col2:
+                st.markdown(f"[Join as User](/?page=Join+as+User&session_id={row['id']})")
 
 def delete_all_sessions():
     conn = sqlite3.connect(DB_FILE)
@@ -164,3 +185,5 @@ def generate_session_url(session_id, base_url=None):
 
     
     return f"{base_url}?page=Join+as+User&session_id={session_id}"
+
+    
